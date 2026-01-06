@@ -1,129 +1,699 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-
-    <style>
-        body{
-            max-width:800px;
-            margin:auto;
-            padding:20px;
-            line-height:1.6;
-            font-family:Arial, Helvetica, sans-serif;
-            background-color:yellowgreen;
-        }
-        table{
-            width:100%;
-            border-collapse:collapse;
-        }
-        th{
-            background-color:#3498db;
-            color:white;
-            padding:12px;
-        }
-        td{
-            padding:12px;
-            border-bottom:1px solid #ddd;
-            text-align:center;
-        }
-        tr:hover{
-            background-color:#f1f1f1;
-        }
-
-
-        img{
-            border-radius:50%;
-            border:3px solid#3498db;
-            display:block;
-            margin:auto;
-        }
-
-        hr{
-            border:none;
-            height:2px;
-            background:linear-gradient(to right,#3498db,#e74c3c,#f39c12);
-        }
-
-        label{
-            color:blueviolet;
-        }
-
-    </style>
-    <p style="color:red;font-size: 80px;">欢迎来到旷钧升的个人主页
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>个人主页 | 数据科学与大数据技术专业</title>
+  <!-- 引入Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- 引入Font Awesome图标库 -->
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <!-- 引入Google Fonts - Inter字体 -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- 配置Tailwind自定义颜色和字体 -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#165DFF',
+            secondary: '#36CFFB',
+            dark: '#1D2939',
+            light: '#F9FAFB'
+          },
+          fontFamily: {
+            inter: ['Inter', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  
+  <!-- 自定义工具类 -->
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .text-shadow {
+        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      .transition-custom {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+    }
+  </style>
+  
+  <style>
+    /* 基础样式 */
+    body {
+      font-family: 'Inter', sans-serif;
+      scroll-behavior: smooth;
+    }
+    
+    /* 滚动条样式 */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: #165DFF;
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: #0E42D2;
+    }
+    
+    /* 动画效果 */
+    .fade-in {
+      animation: fadeIn 0.8s ease-in-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* 延迟动画 */
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+    .delay-300 { animation-delay: 0.3s; }
+    .delay-400 { animation-delay: 0.4s; }
+    .delay-500 { animation-delay: 0.5s; }
+    
+    /* 导航栏滚动效果 */
+    .navbar-scrolled {
+      background-color: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+  </style>
 </head>
-<body>
 
-<hr>
-<h1>关于我</h1>
-<img src="350.jpg" alt="350.jpg" width="280" height="200">
-<p>大家好！我叫<strong>旷钧升</strong>，今年20岁，是一名计算机专业的学生。</p>
-<p>我喜欢编程、阅读、骑自行车和打羽毛球。我的座右铭是：“学无止境，每天进步一点点。”</p>
-<h1>我的技能</h1><br>
+<body class="bg-light text-dark font-inter">
+  <!-- 导航栏 -->
+  <nav id="navbar" class="fixed w-full top-0 z-50 transition-all duration-300 py-4 px-6 md:px-12">
+    <div class="container mx-auto flex justify-between items-center">
+      <a href="#" class="text-2xl font-bold text-primary flex items-center">
+        <span class="fa fa-code mr-2"></span>
+        <span>KJS<span class="text-secondary">Portfolio</span></span>
+      </a>
+      
+      <!-- 桌面导航 -->
+      <div class="hidden md:flex space-x-8">
+        <a href="#home" class="font-medium hover:text-primary transition-custom">首页</a>
+        <a href="#about" class="font-medium hover:text-primary transition-custom">关于我</a>
+        <a href="#skills" class="font-medium hover:text-primary transition-custom">技能</a>
+        <a href="#portfolio" class="font-medium hover:text-primary transition-custom">作品集</a>
+        <a href="#contact" class="font-medium hover:text-primary transition-custom">联系我</a>
+      </div>
+      
+      <!-- 移动端菜单按钮 -->
+      <button id="menu-toggle" class="md:hidden text-dark focus:outline-none">
+        <span class="fa fa-bars text-xl"></span>
+      </button>
+    </div>
+    
+    <!-- 移动端导航菜单 -->
+    <div id="mobile-menu" class="md:hidden hidden bg-white absolute top-full left-0 w-full shadow-lg py-4 px-6">
+      <div class="flex flex-col space-y-4">
+        <a href="#home" class="font-medium hover:text-primary transition-custom py-2">首页</a>
+        <a href="#about" class="font-medium hover:text-primary transition-custom py-2">关于我</a>
+        <a href="#skills" class="font-medium hover:text-primary transition-custom py-2">技能</a>
+        <a href="#portfolio" class="font-medium hover:text-primary transition-custom py-2">作品集</a>
+        <a href="#contact" class="font-medium hover:text-primary transition-custom py-2">联系我</a>
+      </div>
+    </div>
+  </nav>
 
-<ul>
-    <li>HTML网页制作</li>
-    <li>Python编程</li>
-    <li>Office办公软件</li>
-    <li>摄影与修图</li>
-</ul>
-<h1>我的学习计划</h1>
-<ol>
-    <li>学习HTML</li>
-    <li>学习CSS样式</li>
-    <li>学习JAVAScript交互</li>
-    <li>完成一个完整的网站项目</li>
-</ol>
-<h1>我喜欢的网站</h1>
-<p>以下是一些我经常访问的网站</p>
-<ul>
-    <li><a href ="https://www.baidu.com">百度-搜索引擎</a></li>
-    <li><a href ="https://www.bilibili.com">哔哩哔哩-学习视频</a></li>
-    <li><a href="https://www.github.com">GitHub-代码托管</a></li>
-</ul>
+  <!-- 英雄区域 -->
+  <section id="home" class="pt-32 pb-20 md:pt-40 md:pb-32 px-6 md:px-12 bg-gradient-to-br from-primary/5 to-secondary/5">
+    <div class="container mx-auto flex flex-col md:flex-row items-center">
+      <div class="md:w-1/2 fade-in">
+        <h1 class="text-[clamp(2.5rem,5vw,4rem)] font-bold leading-tight text-shadow mb-6">
+          你好, 我是<span class="text-primary">旷钧升</span><br>
+          数据科学与大数据技术专业
+        </h1>
+        <p class="text-lg md:text-xl text-gray-600 mb-8 max-w-xl">
+          专注于数据处理、数据分析与可视化，擅长使用Python、SQL等工具挖掘数据价值，致力于成为优秀的数据人才。
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="#portfolio" class="bg-primary hover:bg-primary/90 text-white font-medium px-8 py-3 rounded-lg transition-custom shadow-lg hover:shadow-xl">
+            查看作品集
+          </a>
+          <a href="#contact" class="border-2 border-primary text-primary hover:bg-primary/5 font-medium px-8 py-3 rounded-lg transition-custom">
+            联系我
+          </a>
+        </div>
+      </div>
+      <div class="md:w-1/2 mt-12 md:mt-0 fade-in delay-200">
+        <div class="relative">
+          <div class="absolute -top-4 -left-4 w-64 h-64 bg-primary/20 rounded-full blur-3xl"></div>
+          <div class="absolute -bottom-8 -right-8 w-72 h-72 bg-secondary/20 rounded-full blur-3xl"></div>
+          <img src="https://picsum.photos/id/1005/600/600" alt="旷钧升的个人头像" class="relative rounded-xl shadow-2xl w-full max-w-md mx-auto">
+        </div>
+      </div>
+    </div>
+  </section>
 
-<h1>联系我</h1>
-<table border="1px">
-    <tr>
-        <th>联系方式</th>
-        <th>内容</th>
-    </tr>
+  <!-- 关于我 -->
+  <section id="about" class="py-20 px-6 md:px-12">
+    <div class="container mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="text-[clamp(2rem,4vw,3rem)] font-bold mb-4">关于我</h2>
+        <div class="w-20 h-1 bg-primary mx-auto"></div>
+      </div>
+      
+      <div class="flex flex-col md:flex-row items-center gap-12">
+        <div class="md:w-2/5 fade-in">
+          <div class="relative">
+            <div class="absolute -top-6 -left-6 w-32 h-32 bg-primary/10 rounded-full"></div>
+            <img src="https://picsum.photos/id/1006/600/800" alt="旷钧升的个人照片" class="relative rounded-xl shadow-xl w-full max-w-md mx-auto">
+          </div>
+        </div>
+        
+        <div class="md:w-3/5 fade-in delay-200">
+          <h3 class="text-2xl font-bold mb-4">我是一名充满激情的数据科学学习者</h3>
+          <p class="text-gray-600 mb-6">
+            重庆科技大学数据科学与大数据技术专业大四学生，热衷于数据挖掘、机器学习和数据分析，具备扎实的数学基础和编程能力。在校期间积极参与实践项目，不断提升自己的专业技能，希望能在数据领域发光发热。
+          </p>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-custom">
+              <div class="flex items-center mb-3">
+                <span class="fa fa-graduation-cap text-primary text-xl mr-3"></span>
+                <h4 class="font-semibold text-lg">教育背景</h4>
+              </div>
+              <p class="text-gray-600">数据科学与大数据技术专业，重庆科技大学</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-custom">
+              <div class="flex items-center mb-3">
+                <span class="fa fa-briefcase text-primary text-xl mr-3"></span>
+                <h4 class="font-semibold text-lg">实践经验</h4>
+              </div>
+              <p class="text-gray-600">参与多个数据分析项目，具备数据处理与可视化实战经验</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-custom">
+              <div class="flex items-center mb-3">
+                <span class="fa fa-code text-primary text-xl mr-3"></span>
+                <h4 class="font-semibold text-lg">专业技能</h4>
+              </div>
+              <p class="text-gray-600">Python、SQL、数据分析、机器学习、数据可视化</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-custom">
+              <div class="flex items-center mb-3">
+                <span class="fa fa-language text-primary text-xl mr-3"></span>
+                <h4 class="font-semibold text-lg">语言能力</h4>
+              </div>
+              <p class="text-gray-600">普通话（母语），英语（良好）</p>
+            </div>
+          </div>
+          
+          <a href="#" class="inline-flex items-center text-primary font-medium hover:underline">
+            下载我的简历 <span class="fa fa-download ml-2"></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <tr>
-        <td>邮箱</td>
-        <td>kuang@exmaple.com</td>
-    </tr>
+  <!-- 技能展示 -->
+  <section id="skills" class="py-20 px-6 md:px-12 bg-gray-50">
+    <div class="container mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="text-[clamp(2rem,4vw,3rem)] font-bold mb-4">我的技能</h2>
+        <div class="w-20 h-1 bg-primary mx-auto"></div>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div class="fade-in">
+          <h3 class="text-2xl font-bold mb-8">技术技能</h3>
+          
+          <div class="space-y-6">
+            <div>
+              <div class="flex justify-between mb-2">
+                <span class="font-medium">Python编程</span>
+                <span>85%</span>
+              </div>
+              <div class="w-full bg-gray-200 rounded-full h-2.5">
+                <div class="bg-primary h-2.5 rounded-full" style="width: 85%"></div>
+              </div>
+            </div>
+            
+            <div>
+              <div class="flex justify-between mb-2">
+                <span class="font-medium">SQL数据库</span>
+                <span>80%</span>
+              </div>
+              <div class="w-full bg-gray-200 rounded-full h-2.5">
+                <div class="bg-primary h-2.5 rounded-full" style="width: 80%"></div>
+              </div>
+            </div>
+            
+            <div>
+              <div class="flex justify-between mb-2">
+                <span class="font-medium">数据分析</span>
+                <span>75%</span>
+              </div>
+              <div class="w-full bg-gray-200 rounded-full h-2.5">
+                <div class="bg-primary h-2.5 rounded-full" style="width: 75%"></div>
+              </div>
+            </div>
+            
+            <div>
+              <div class="flex justify-between mb-2">
+                <span class="font-medium">数据可视化</span>
+                <span>70%</span>
+              </div>
+              <div class="w-full bg-gray-200 rounded-full h-2.5">
+                <div class="bg-primary h-2.5 rounded-full" style="width: 70%"></div>
+              </div>
+            </div>
+            
+            <div>
+              <div class="flex justify-between mb-2">
+                <span class="font-medium">机器学习基础</span>
+                <span>65%</span>
+              </div>
+              <div class="w-full bg-gray-200 rounded-full h-2.5">
+                <div class="bg-primary h-2.5 rounded-full" style="width: 65%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="fade-in delay-200">
+          <h3 class="text-2xl font-bold mb-8">软技能</h3>
+          
+          <div class="grid grid-cols-2 gap-6">
+            <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-custom">
+              <div class="flex items-center justify-center h-16 w-16 bg-primary/10 rounded-full mb-4 mx-auto">
+                <span class="fa fa-lightbulb-o text-primary text-2xl"></span>
+              </div>
+              <h4 class="text-center font-semibold text-lg mb-2">问题解决</h4>
+              <p class="text-center text-gray-600">能够快速分析并解决复杂数据问题</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-custom">
+              <div class="flex items-center justify-center h-16 w-16 bg-primary/10 rounded-full mb-4 mx-auto">
+                <span class="fa fa-users text-primary text-2xl"></span>
+              </div>
+              <h4 class="text-center font-semibold text-lg mb-2">团队协作</h4>
+              <p class="text-center text-gray-600">擅长与跨职能团队有效合作完成项目</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-custom">
+              <div class="flex items-center justify-center h-16 w-16 bg-primary/10 rounded-full mb-4 mx-auto">
+                <span class="fa fa-line-chart text-primary text-2xl"></span>
+              </div>
+              <h4 class="text-center font-semibold text-lg mb-2">项目管理</h4>
+              <p class="text-center text-gray-600">能够有效规划和管理数据项目进度</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-custom">
+              <div class="flex items-center justify-center h-16 w-16 bg-primary/10 rounded-full mb-4 mx-auto">
+                <span class="fa fa-comments text-primary text-2xl"></span>
+              </div>
+              <h4 class="text-center font-semibold text-lg mb-2">沟通能力</h4>
+              <p class="text-center text-gray-600">清晰表达数据分析结果给非技术人员</p>
+            </div>
+          </div>
+          
+          <div class="mt-10">
+            <h4 class="font-semibold text-lg mb-4">工具与框架</h4>
+            <div class="flex flex-wrap gap-4">
+              <span class="bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium">Python</span>
+              <span class="bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium">SQL</span>
+              <span class="bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium">Pandas</span>
+              <span class="bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium">NumPy</span>
+              <span class="bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium">Matplotlib</span>
+              <span class="bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium">Seaborn</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <tr>
-        <td>电话</td>
-        <td>138-0000-0000</td>
-    </tr>
+  <!-- 作品集 -->
+  <section id="portfolio" class="py-20 px-6 md:px-12">
+    <div class="container mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="text-[clamp(2rem,4vw,3rem)] font-bold mb-4">我的作品集</h2>
+        <div class="w-20 h-1 bg-primary mx-auto"></div>
+        <p class="mt-6 text-gray-600 max-w-2xl mx-auto">
+          这里展示了我参与的数据分析和数据科学相关项目，包括课程设计和个人实践项目。
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- 项目卡片 1 -->
+        <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-custom group fade-in">
+          <div class="relative overflow-hidden">
+            <img src="https://picsum.photos/id/1/600/400" alt="电商用户行为数据分析" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-primary/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+              <a href="#" class="bg-white text-primary font-medium px-4 py-2 rounded-lg transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all">
+                查看详情
+              </a>
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">电商用户行为数据分析</h3>
+            <p class="text-gray-600 mb-4">
+              使用Python分析电商平台用户行为数据，挖掘用户购买规律，提供营销策略建议。
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">Python</span>
+              <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">Pandas</span>
+              <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">Matplotlib</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 项目卡片 2 -->
+        <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-custom group fade-in delay-100">
+          <div class="relative overflow-hidden">
+            <img src="https://picsum.photos/id/180/600/400" alt="学生成绩数据分析系统" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-primary/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+              <a href="#" class="bg-white text-primary font-medium px-4 py-2 rounded-lg transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all">
+                查看详情
+              </a>
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">学生成绩数据分析系统</h3>
+            <p class="text-gray-600 mb-4">
+              设计并实现学生成绩数据分析系统，分析成绩分布、课程相关性等，辅助教学决策。
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">Python</span>
+              <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">SQL</span>
+              <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">Flask</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 项目卡片 3 -->
+        <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-custom group fade-in delay-200">
+          <div class="relative overflow-hidden">
+            <img src="https://picsum.photos/id/20/600/400" alt="房价预测模型" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-primary/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+              <a href="#" class="bg-white text-primary font-medium px-4 py-2 rounded-lg transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all">
+                查看详情
+              </a>
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">房价预测模型</h3>
+            <p class="text-gray-600 mb-4">
+              基于机器学习算法构建房价预测模型，使用多种特征进行训练和优化，提高预测准确率。
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">Python</span>
+              <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">Scikit-learn</span>
+              <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">Pandas</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 项目卡片 4 -->
+        <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-custom group fade-in delay-300">
+          <div class="relative overflow-hidden">
+            <img src="https://picsum.photos/id/42/600/400" alt="社交媒体情感分析" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-primary/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+              <a href="#" class="bg-white text-primary font-medium px-4 py-2 rounded-lg transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all">
+                查看详情
+              </a>
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">社交媒体情感分析</h3>
+            <p class="text-gray-600 mb-4">
+              爬取社交媒体评论数据，进行文本预处理和情感分析，可视化展示分析结果。
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">Python</span>
+              <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">NLTK</span>
+              <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">Seaborn</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 项目卡片 5 -->
+        <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-custom group fade-in delay-400">
+          <div class="relative overflow-hidden">
+            <img src="https://picsum.photos/id/96/600/400" alt="交通流量数据分析" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-primary/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+              <a href="#" class="bg-white text-primary font-medium px-4 py-2 rounded-lg transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all">
+                查看详情
+              </a>
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">交通流量数据分析</h3>
+            <p class="text-gray-600 mb-4">
+              分析城市交通流量数据，识别拥堵时段和路段，为交通管理提供数据支持。
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">Python</span>
+              <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">Pandas</span>
+              <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">Plotly</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 项目卡片 6 -->
+        <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-custom group fade-in delay-500">
+          <div class="relative overflow-hidden">
+            <img src="https://picsum.photos/id/28/600/400" alt="毕业设计-基于大数据的推荐系统" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-primary/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+              <a href="#" class="bg-white text-primary font-medium px-4 py-2 rounded-lg transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all">
+                查看详情
+              </a>
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">毕业设计-基于大数据的推荐系统</h3>
+            <p class="text-gray-600 mb-4">
+              设计并实现基于协同过滤和内容推荐的混合推荐系统，提高推荐准确率和用户体验。
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">Python</span>
+              <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">Spark</span>
+              <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">Scikit-learn</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="text-center mt-12">
+        <a href="#" class="inline-flex items-center bg-white border-2 border-primary text-primary hover:bg-primary hover:text-white font-medium px-8 py-3 rounded-lg transition-custom">
+          查看更多项目 <span class="fa fa-arrow-right ml-2"></span>
+        </a>
+      </div>
+    </div>
+  </section>
 
-    <tr>
-        <td>地址</td>
-        <td>中国北京市</td>
-    </tr>
+  <!-- 联系我 -->
+  <section id="contact" class="py-20 px-6 md:px-12 bg-gray-50">
+    <div class="container mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="text-[clamp(2rem,4vw,3rem)] font-bold mb-4">联系我</h2>
+        <div class="w-20 h-1 bg-primary mx-auto"></div>
+        <p class="mt-6 text-gray-600 max-w-2xl mx-auto">
+          有任何问题或合作机会，请随时联系我。我会尽快回复您的消息。
+        </p>
+      </div>
+      
+      <div class="flex flex-col md:flex-row gap-12">
+        <div class="md:w-1/2 fade-in">
+          <form class="bg-white p-8 rounded-xl shadow-lg">
+            <div class="mb-6">
+              <label for="name" class="block text-gray-700 font-medium mb-2">姓名</label>
+              <input type="text" id="name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-custom" placeholder="您的姓名">
+            </div>
+            
+            <div class="mb-6">
+              <label for="email" class="block text-gray-700 font-medium mb-2">邮箱</label>
+              <input type="email" id="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-custom" placeholder="您的邮箱地址">
+            </div>
+            
+            <div class="mb-6">
+              <label for="subject" class="block text-gray-700 font-medium mb-2">主题</label>
+              <input type="text" id="subject" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-custom" placeholder="消息主题">
+            </div>
+            
+            <div class="mb-8">
+              <label for="message" class="block text-gray-700 font-medium mb-2">消息</label>
+              <textarea id="message" rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-custom" placeholder="请详细描述您的需求或问题"></textarea>
+            </div>
+            
+            <button type="submit" class="w-full bg-primary hover:bg-primary/90 text-white font-medium py-3 px-6 rounded-lg transition-custom shadow-md hover:shadow-lg">
+              发送消息
+            </button>
+          </form>
+        </div>
+        
+        <div class="md:w-1/2 fade-in delay-200">
+          <div class="bg-white p-8 rounded-xl shadow-lg h-full">
+            <h3 class="text-2xl font-bold mb-6">联系信息</h3>
+            
+            <div class="space-y-6">
+              <div class="flex items-start">
+                <div class="flex-shrink-0 h-12 w-12 bg-primary/10 rounded-full flex items-center justify-center mr-4">
+                  <span class="fa fa-map-marker text-primary text-xl"></span>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-lg mb-1">地址</h4>
+                  <p class="text-gray-600">重庆科技大学虎溪校区</p>
+                </div>
+              </div>
+              
+              <div class="flex items-start">
+                <div class="flex-shrink-0 h-12 w-12 bg-primary/10 rounded-full flex items-center justify-center mr-4">
+                  <span class="fa fa-envelope text-primary text-xl"></span>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-lg mb-1">邮箱</h4>
+                  <p class="text-gray-600">kjs@1234567.com</p>
+                </div>
+              </div>
+              
+              <div class="flex items-start">
+                <div class="flex-shrink-0 h-12 w-12 bg-primary/10 rounded-full flex items-center justify-center mr-4">
+                  <span class="fa fa-phone text-primary text-xl"></span>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-lg mb-1">电话</h4>
+                  <p class="text-gray-600">1234567890</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="mt-10">
+              <h4 class="font-semibold text-lg mb-4">社交媒体</h4>
+              <div class="flex space-x-4">
+                <a href="#" class="h-10 w-10 bg-primary/10 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-custom">
+                  <span class="fa fa-weixin"></span>
+                </a>
+                <a href="#" class="h-10 w-10 bg-primary/10 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-custom">
+                  <span class="fa fa-weibo"></span>
+                </a>
+                <a href="#" class="h-10 w-10 bg-primary/10 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-custom">
+                  <span class="fa fa-github"></span>
+                </a>
+                <a href="#" class="h-10 w-10 bg-primary/10 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-custom">
+                  <span class="fa fa-linkedin"></span>
+                </a>
+              </div>
+            </div>
+            
+            <div class="mt-10">
+              <h4 class="font-semibold text-lg mb-4">工作时间</h4>
+              <p class="text-gray-600 mb-2">周一至周五: 9:00 - 18:00</p>
+              <p class="text-gray-600">周六至周日: 休息</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-</table>
+  <!-- 页脚 -->
+  <footer class="bg-dark text-white py-12 px-6 md:px-12">
+    <div class="container mx-auto">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-6 md:mb-0">
+          <a href="#" class="text-2xl font-bold flex items-center">
+            <span class="fa fa-code mr-2"></span>
+            <span>KJS<span class="text-secondary">Portfolio</span></span>
+          </a>
+          <p class="mt-4 text-gray-400 max-w-md">
+            专注于数据处理、数据分析与可视化，擅长使用Python、SQL等工具挖掘数据价值，致力于成为优秀的数据人才。
+          </p>
+        </div>
+        
+        <div class="flex flex-col items-center md:items-end">
+          <div class="flex space-x-6 mb-4">
+            <a href="#home" class="text-gray-400 hover:text-white transition-custom">首页</a>
+            <a href="#about" class="text-gray-400 hover:text-white transition-custom">关于我</a>
+            <a href="#skills" class="text-gray-400 hover:text-white transition-custom">技能</a>
+            <a href="#portfolio" class="text-gray-400 hover:text-white transition-custom">作品集</a>
+            <a href="#contact" class="text-gray-400 hover:text-white transition-custom">联系我</a>
+          </div>
+          <p class="text-gray-400">© 2025 旷钧升. 保留所有权利.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
 
-<h1>给我留言</h1>
-
-<form>
-    <p>
-        <label>你的名字：</label><br>
-        <input type="text" name="name">
-    </p>
-
-    <p>
-        <label>留言内容:</label><br>
-        <textarea name="message" rows="4"></textarea>
-    </p>
-
-    <p>
-        <button type="submit">提交</button>
-    </p>
-
-</form>
-
+  <!-- JavaScript -->
+  <script>
+    // 导航栏滚动效果
+    window.addEventListener('scroll', function() {
+      const navbar = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('navbar-scrolled');
+      } else {
+        navbar.classList.remove('navbar-scrolled');
+      }
+    });
+    
+    // 移动端菜单切换
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    menuToggle.addEventListener('click', function() {
+      mobileMenu.classList.toggle('hidden');
+    });
+    
+    // 平滑滚动
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        
+        if (targetElement) {
+          // 关闭移动菜单（如果打开）
+          mobileMenu.classList.add('hidden');
+          
+          // 滚动到目标位置
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+    
+    // 滚动动画
+    const fadeElements = document.querySelectorAll('.fade-in');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    fadeElements.forEach(element => {
+      element.style.opacity = '0';
+      element.style.transform = 'translateY(20px)';
+      element.style.transition = 'opacity 0.8s ease-in-out, transform 0.8s ease-in-out';
+      observer.observe(element);
+    });
+  </script>
 </body>
 </html>
